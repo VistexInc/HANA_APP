@@ -1,0 +1,40 @@
+ID: HANA_APP
+_schema-version: '2.1'
+version: 0.0.1
+modules:
+  - name: core_xsjs
+    type: nodejs
+    path: core_xsjs
+    provides:
+      - name: core_xsjs_api
+        properties:
+          url: '${default-url}'
+    requires:
+      - name: UAA-service
+      - name: hdi_db
+      - name: db
+  - name: web
+    type: html5
+    path: web
+    requires:
+      - name: UAA-service
+      - name: core_xsjs_api
+        properties:
+          name: core-xsjs-backend
+          url: '~{url}'
+          forwardAuthToken: true
+  - name: db
+    type: hdb
+    path: db
+    requires:
+      - name: hdi_db
+resources:
+  - name: UAA-service
+    type: com.sap.xs.uaa-space
+  - name: hdi_db
+    parameters:
+      config:
+        schema: DB
+    properties:
+      hdi-container-name: '${service-name}'
+    type: com.sap.xs.hdi-container
