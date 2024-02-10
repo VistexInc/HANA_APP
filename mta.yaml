@@ -23,11 +23,15 @@ modules:
           name: core-xsjs-backend
           url: '~{url}'
           forwardAuthToken: true
+        group: destinations
   - name: db
     type: hdb
     path: db
     requires:
       - name: hdi_db
+
+  
+
 resources:
   - name: UAA-service
     type: com.sap.xs.uaa-space
